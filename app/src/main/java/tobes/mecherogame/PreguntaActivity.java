@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -30,6 +31,7 @@ public class PreguntaActivity extends AppCompatActivity {
     private ImageButton change_question_button;
 
     private int question_changes = 0;
+    private boolean isYes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,25 +85,24 @@ public class PreguntaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                coin_image.clearAnimation();
+
                 Random r = new Random();
-                int coin = r.nextInt(2);
+                final int coin = r.nextInt(2);
                 if (coin == 0){
-                    no_image.setVisibility(View.VISIBLE);
+
+                    isYes = false;
                     drink(222);
-                };
-                if (coin == 1){
-                    //yes_image.setVisibility(View.VISIBLE);
-                    question_text.setVisibility(View.VISIBLE);
+                    flipIt(coin_image,no_image);
 
+                }else if (coin == 1){
+
+                    isYes = true;
                     drink(111);
-
-
-                    flipIt(coin_image);
-
+                    flipIt(coin_image,yes_image);
 
                 };
                 coin_button.setVisibility(View.INVISIBLE);
-                next_button.setVisibility(View.VISIBLE);
 
             }
         });
@@ -137,24 +138,27 @@ public class PreguntaActivity extends AppCompatActivity {
         drink_text.setVisibility(View.VISIBLE);
     }
 
-    private void flipIt(final View viewToFlip) {
-        /*ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, "rotationY", 0f, 720f);
-        flip.setDuration(500);
-        flip.start();*/
+    private void flipIt(final View viewToFlip, final View viewAfter) {
 
+        //viewToFlip.setRotation(0);
 
         viewToFlip.animate()
-                .rotationY(360f)
+                .rotationY(720f)
                 .setDuration(500)
                 .withEndAction(new Runnable() {
                     @Override
                     public void run() {
                         coin_image.setVisibility(View.INVISIBLE);
+                        viewAfter.setVisibility(View.VISIBLE);
+                        if (isYes){
+                            question_text.setVisibility(View.VISIBLE);
+                        }
+                        next_button.setVisibility(View.VISIBLE);
 
-                        yes_image.setVisibility(View.VISIBLE);
                     }
-                })
-                .start();
+                }).start();
+
+        //viewToFlip.startAnimation();
 
     }
 }
