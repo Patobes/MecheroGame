@@ -140,7 +140,7 @@ public class PreguntaActivity extends AppCompatActivity {
 
     private void flipIt(final View viewToFlip, final View viewAfter) {
 
-        //viewToFlip.setRotation(0);
+        viewToFlip.setRotationY(0);
 
         viewToFlip.animate()
                 .rotationY(720f)
@@ -157,8 +157,6 @@ public class PreguntaActivity extends AppCompatActivity {
 
                     }
                 }).start();
-
-        //viewToFlip.startAnimation();
 
     }
 }
