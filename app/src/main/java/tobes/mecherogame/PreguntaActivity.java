@@ -25,8 +25,8 @@ public class PreguntaActivity extends AppCompatActivity {
     private ImageView yes_image;
     private ImageView no_image;
     private ImageView coin_image;
-    private Button next_button;
-    private Button coin_button;
+    private Button nexthard_button;
+    private Button nextlight_button;
     private Button answered_button;
     private ImageButton change_question_button;
 
@@ -43,8 +43,8 @@ public class PreguntaActivity extends AppCompatActivity {
         yes_image = (ImageView)findViewById(R.id.iv_yes);
         no_image = (ImageView)findViewById(R.id.iv_no);
         coin_image = (ImageView)findViewById(R.id.iv_coin);
-        next_button = (Button)findViewById(R.id.btn_next);
-        coin_button = (Button)findViewById(R.id.btn_coin);
+        nexthard_button = (Button)findViewById(R.id.btn_nexthard);
+        nextlight_button = (Button)findViewById(R.id.btn_nextlight);
         answered_button = (Button)findViewById(R.id.btn_answered);
         change_question_button = (ImageButton)findViewById(R.id.ib_changequestion);
 
@@ -71,43 +71,18 @@ public class PreguntaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 question_text.setVisibility(View.INVISIBLE);
-                coin_button.setVisibility(View.VISIBLE);
                 answered_button.setVisibility(View.INVISIBLE);
 
                 drink_text.setVisibility(View.INVISIBLE);
 
                 change_question_button.setVisibility(View.INVISIBLE);
                 question_changes = 0;
+
+                setClick();
             }
         });
 
-        coin_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                coin_image.clearAnimation();
-
-                Random r = new Random();
-                final int coin = r.nextInt(2);
-                if (coin == 0){
-
-                    isYes = false;
-                    drink(222);
-                    flipIt(coin_image,no_image);
-
-                }else if (coin == 1){
-
-                    isYes = true;
-                    drink(111);
-                    flipIt(coin_image,yes_image);
-
-                };
-                coin_button.setVisibility(View.INVISIBLE);
-
-            }
-        });
-
-        next_button.setOnClickListener(new View.OnClickListener() {
+        nexthard_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //BBDD.nextQuestion()
@@ -116,7 +91,8 @@ public class PreguntaActivity extends AppCompatActivity {
                 question_text.setText(String.valueOf(i));
 
                 question_text.setVisibility(View.VISIBLE);
-                next_button.setVisibility(View.INVISIBLE);
+                nexthard_button.setVisibility(View.INVISIBLE);
+                nextlight_button.setVisibility(View.INVISIBLE);
                 answered_button.setVisibility(View.VISIBLE);
 
                 drink(5);
@@ -128,6 +104,33 @@ public class PreguntaActivity extends AppCompatActivity {
 
                 coin_image.setVisibility(View.VISIBLE);
 
+                coin_image.setOnClickListener(null);
+            }
+        });
+
+        nextlight_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //BBDD.nextQuestion()
+                Random r = new Random();
+                int i = r.nextInt(100);
+                question_text.setText(String.valueOf(i));
+
+                question_text.setVisibility(View.VISIBLE);
+                nexthard_button.setVisibility(View.INVISIBLE);
+                nextlight_button.setVisibility(View.INVISIBLE);
+                answered_button.setVisibility(View.VISIBLE);
+
+                drink(5);
+
+                change_question_button.setVisibility(View.VISIBLE);
+
+                yes_image.setVisibility(View.INVISIBLE);
+                no_image.setVisibility(View.INVISIBLE);
+
+                coin_image.setVisibility(View.VISIBLE);
+
+                coin_image.setOnClickListener(null);
             }
         });
 
@@ -153,10 +156,38 @@ public class PreguntaActivity extends AppCompatActivity {
                         if (isYes){
                             question_text.setVisibility(View.VISIBLE);
                         }
-                        next_button.setVisibility(View.VISIBLE);
+                        nexthard_button.setVisibility(View.VISIBLE);
+                        nextlight_button.setVisibility(View.VISIBLE);
 
                     }
                 }).start();
 
+    }
+
+    private void setClick(){
+        coin_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                coin_image.clearAnimation();
+
+                Random r = new Random();
+                final int coin = r.nextInt(2);
+                if (coin == 0){
+
+                    isYes = false;
+                    drink(222);
+                    flipIt(coin_image,no_image);
+
+                }else if (coin == 1){
+
+                    isYes = true;
+                    drink(111);
+                    flipIt(coin_image,yes_image);
+
+                };
+
+            }
+        });
     }
 }
